@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_google_gcm_server,google_gcm.server,model_google_gcm_server,base.group_system,1,1,1,1
+access_google_gcm_device,google_gcm.device,model_google_gcm_device,base.group_system,1,1,1,1
+access_google_gcm_message,google_gcm.message,model_google_gcm_message,base.group_user,1,1,1,1

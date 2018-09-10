@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_gcm_message_form">
+            <field name="name">google_gcm.message.form</field>
+            <field name="model">google_gcm.message</field>
+            <field name="arch" type="xml">
+                <form string="Email message">
+                    <header>
+                        <button name="send" string="Send Now" type="object" states='draft' class="oe_highlight"/>
+                        <button name="mark_draft" string="Retry" type="object" states='exception,cancel'/>
+                        <button name="cancel" string="Cancel" type="object" states='draft'/>
+                        <button name="compute_gcm_server" string="Compute server" type="object" states='draft' class="oe_highlight"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,sent,exception,cancel"/>
+                    </header>
+                    <sheet>
+                        <label for="name" class="oe_edit_only"/>
+                        <h2><field name="name"/></h2>
+                        <div style="vertical-align: top;">
+                            by <field name="author_id" class="oe_inline" string="User"/> on <field name="date" readonly="1" class="oe_inline"/>
+                        </div>
+                        <group>
+                            <field name="recipient_ids" widget="many2many_tags"/>
+                        </group>
+                        <notebook>
+                            <page string="Body">
+                                <field name="content" widget="html" options="{'style-inline': true}"/>
+                            </page>
+                            <page string="Advanced" groups="base.group_no_one">
+                                <group>
+                                    <group string="Status">
+                                        <field name="auto_delete"/>
+                                        <field name="gcm_server_id"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="State Reason" attrs="{'invisible': [('state', '!=', 'exception')]}">
+                                <field name="state_reason"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_gcm_message_tree">
+            <field name="name">google_gcm.message.tree</field>
+            <field name="model">google_gcm.message</field>
+            <field name="arch" type="xml">
+                <tree string="Message" decoration-muted="state in ('sent', 'cancel')" decoration-info="state=='draft'" decoration-danger="state=='exception'">
+                    <field name="date"/>
+                    <field name="name"/>
+                    <field name="author_id" string="User"/>
+                    <field name="recipient_ids" invisible="1"/>
+                    <field name="state" invisible="1"/>
+                    <button name="send" string="Send Now" type="object" icon="gtk-media-play" states='draft'/>
+                    <button name="mark_draft" string="Retry" type="object" icon="gtk-redo" states='exception,cancel'/>
+                    <button name="cancel" string="Cancel Email" type="object" icon="terp-gtk-stop" states='draft'/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_gcm_message_search">
+            <field name="name">google_gcm.message.search</field>
+            <field name="model">google_gcm.message</field>
+            <field name="arch" type="xml">
+                <search string="Google Cloud Message Search">
+                    <field name="date"/>
+                    <filter name="draft" string="Draft" domain="[('state','=','draft')]"/>
+                    <filter name="sent" string="Sent" domain="[('state','=','sent')]"/>
+                    <filter name="exception" string="Failed" domain="[('state','=','exception')]"/>
+                    <separator/>
+                    <group expand="0" string="Extended Filters...">
+                        <field name="author_id"/>
+                        <field name="recipient_ids"/>
+                    </group>
+                    <group expand="0" string="Group By">
+                        <filter string="Status" name="status" domain="[]" context="{'group_by':'state'}"/>
+                        <filter string="Author" name="author" context="{'group_by':'author_id'}"/>
+                        <filter string="Month" name="month" help="Creation Month" domain="[]" context="{'group_by':'date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_view_gcm_message" model="ir.actions.act_window">
+            <field name="name">Gcm Messages</field>
+            <field name="res_model">google_gcm.message</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="search_view_id" ref="view_gcm_message_search"/>
+        </record>
+
+        <!-- Add menu entry in Settings/Email -->
+        <menuitem name="Messages" id="menu_gcm_message" parent="menu_google_gcm" action="action_view_gcm_message" />
+    </data>
+</openerp>

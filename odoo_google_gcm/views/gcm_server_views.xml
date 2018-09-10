@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- google_gcm.server -->
+        <record model="ir.ui.view" id="google_gcm_server_form">
+            <field name="model">google_gcm.server</field>
+            <field name="arch" type="xml">
+                <form string="Google Cloud Message servers">
+                  <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+                  </header>
+                  <sheet>
+                    <group col="4">
+                        <field name="name"/>
+                        <field name="sequence"/>
+                    </group>
+                    <group col="4" string="Connection Information">
+                        <field name="sender_id"/>
+                        <field name="api_key"/>
+                     </group>
+                     <group string="Extra parameters" colspan="4">
+                        <field name="collapse_key"/>
+                        <field name="delay_while_idle"/>
+                        <field name="time_to_live"/>
+                        <button name="test_gcm_server_connection" type="object" string="Test Connection" icon="gtk-network"/>
+                    </group>
+                  </sheet>  
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="google_gcm_server_list">
+            <field name="name">google_gcm.server.tree</field>
+            <field name="model">google_gcm.server</field>
+            <field name="arch" type="xml">
+                <tree string="Google Cloud Message servers" decoration-info="state=='done'" decoration-danger="state=='draft'">
+                    <field name="sequence"/>
+                    <field name="name"/>
+                    <field name="sender_id"/>
+                    <field name="api_key"/>
+                    <field name="state" invisible="1"/>
+                    <button name="test_gcm_server_connection" string="Test" type="object" icon="gtk-media-play" states='draft'/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_google_gcm_server_search" model="ir.ui.view">
+            <field name="model">google_gcm.server</field>
+            <field name="arch" type="xml">
+                <search string="Google Cloud Message servers">
+                    <field name="name"
+                        filter_domain="['|', '|', ('name','ilike',self), ('sender_id','ilike',self), ('api_key','ilike',self)]"
+                        string="Google Cloud Message server"/>
+                    <filter name="draft" string="Not connected" domain="[('state','=','draft')]"/>
+                    <filter name="done" string="Connected" domain="[('state','=','done')]"/>
+                    <field name="delay_while_idle"/>
+                    <field name="time_to_live"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Status" name="status" domain="[]" context="{'group_by':'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_google_gcm_server_list">
+            <field name="name">Google Cloud Message servers</field>
+            <field name="res_model">google_gcm.server</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="google_gcm_server_list" />
+            <field name="search_view_id" ref="view_google_gcm_server_search"/>
+        </record>
+        <menuitem id="menu_google_gcm" name="Google Cloud Message" parent="base.menu_custom" sequence="10"/>
+        <menuitem id="menu_gcm_servers" name="Server" parent="menu_google_gcm" action="action_google_gcm_server_list" sequence="15" groups="base.group_no_one"/>
+    </data>
+</openerp>

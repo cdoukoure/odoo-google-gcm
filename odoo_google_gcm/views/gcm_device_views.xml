@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- google_gcm.device -->
+        <record model="ir.ui.view" id="google_gcm_device_form">
+            <field name="model">google_gcm.device</field>
+            <field name="arch" type="xml">
+                <form string="Google Cloud Message devices">
+                  <sheet>
+                    <group col="4">
+                        <field name="partner_id"/>
+                        <field name="gcm_reg_id"/>
+                    </group>
+                  </sheet>  
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="google_gcm_device_list">
+            <field name="name">google_gcm.device.tree</field>
+            <field name="model">google_gcm.device</field>
+            <field name="arch" type="xml">
+                <tree string="Google Cloud Message device">
+                    <field name="partner_id"/>
+                    <field name="gcm_reg_id"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_google_gcm_device_search" model="ir.ui.view">
+            <field name="model">google_gcm.device</field>
+            <field name="arch" type="xml">
+                <search string="Google Cloud Message servers">
+                    <field name="gcm_reg_id"
+                        filter_domain="['|', '|', ('gcm_reg_id','ilike',self), ('partner_id','ilike',self)]"
+                        string="Google Cloud Message device"/>
+                </search>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_google_gcm_device_list">
+            <field name="name">Google Cloud Message</field>
+            <field name="res_model">google_gcm.device</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="google_gcm_device_list" />
+            <field name="search_view_id" ref="view_google_gcm_device_search"/>
+        </record>
+        <menuitem id="menu_gcm_device" name="Devices" parent="menu_google_gcm" action="action_google_gcm_device_list"/>
+    </data>
+</openerp>
