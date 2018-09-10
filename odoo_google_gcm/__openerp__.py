@@ -9,8 +9,8 @@
         Send data from your server to your users' phone devices, and receive messages from devices on the same connection.
     """,
 
-    'author': "ARC Technology CI",
-    'website': "http://www.arc-ci.com",
+    'author': "Jean-Charles Doukouré",
+    'website': "",
 
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/master/openerp/addons/base/module/module_data.xml
