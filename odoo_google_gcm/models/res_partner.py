@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from openerp import _, api, fields, models
-import openerp
-
+from odoo import _, api, fields, models
 
 class Partner(models.Model):
     """ Update of res.users class

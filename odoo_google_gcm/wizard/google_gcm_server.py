@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from gcm import GCM
-from openerp import models, fields, api
-import openerp.tools as tools
+from odoo import models, fields, api
+import odoo.tools as tools
 
 class gcm_server(models.Model):
     _name = 'google_gcm.server'

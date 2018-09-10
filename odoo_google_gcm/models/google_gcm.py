@@ -2,11 +2,11 @@
 from gcmclient import *
 import logging
 import psycopg2
-from openerp import models, fields, api
-import openerp.tools as tools
-from openerp.addons.base.ir.ir_mail_server import MailDeliveryException
-from openerp.tools.translate import _
-from openerp.exceptions import UserError
+from odoo import models, fields, api
+import odoo.tools as tools
+from odoo.addons.base.ir.ir_mail_server import MailDeliveryException
+from odoo.tools.translate import _
+from odoo.exceptions import UserError
 
 
 _logger = logging.getLogger(__name__)

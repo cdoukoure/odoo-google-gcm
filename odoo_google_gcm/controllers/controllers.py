@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-import openerp
+import odoo
 
-from openerp import http
-from openerp.http import request
-from openerp.addons.web.controllers.main import ensure_db
+from odoo import http
+from odoo.http import request
+from odoo.addons.web.controllers.main import ensure_db
 
 class GoogleGcm(http.Controller):
  
@@ -34,7 +34,7 @@ class GoogleGcm(http.Controller):
     def register(self, **kw):
         ensure_db()
         if not request.uid:
-            request.uid = openerp.SUPERUSER_ID
+            request.uid = odoo.SUPERUSER_ID
     
         if request.httprequest.method == 'POST':
             uid = request.session.authenticate(request.params['db'], request.params['login'], request.params['password'])
@@ -59,12 +59,12 @@ class GoogleGcm(http.Controller):
             return http.redirect_with_hash(redirect)
 
         if not request.uid:
-            request.uid = openerp.SUPERUSER_ID
+            request.uid = odoo.SUPERUSER_ID
 
         values = request.params.copy()
         try:
             values['databases'] = http.db_list()
-        except openerp.exceptions.AccessDenied:
+        except odoo.exceptions.AccessDenied:
             values['databases'] = None
 
         if request.httprequest.method == 'POST':
